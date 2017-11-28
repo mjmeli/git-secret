@@ -1,0 +1,5 @@
+venv/*
+secrets.spec
+
+# For git-secret
+secrets.private

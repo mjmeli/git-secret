@@ -1,10 +1,11 @@
 # git_secret
-# CLI tool to aid developers in managing secrets when sharing code publicly. 
+# Tool and library to aid developers in managing secrets when sharing code publicly. 
+# This is the CLI tool.
 #
 # Usage:
-#   python git_secret.py --mode [spec|enter]
+#   python git_secret.py --mode [spec|secrets]
 #       spec --> generate the secret specification JSON
-#       enter --> enter secret information according to the specification
+#       secrets --> enter secret information according to the specification
 
 import os
 import json
@@ -52,7 +53,7 @@ def do_spec(git_path):
     setup_gitignore(git_path)
 
 # Enter secret information according to the specification
-def do_enter(git_path):
+def do_secrets(git_path):
     # Read in the spec, if it exists
     spec_file_path = os.path.join(git_path, SPEC_FILE_NAME)
     if not os.path.exists(spec_file_path):
@@ -83,7 +84,7 @@ def do_enter(git_path):
     setup_gitignore(git_path) 
 
 @click.command()
-@click.option("--mode", required=True, type=click.Choice(["spec", "enter"]), help="Mode to run the tool in")
+@click.option("--mode", required=True, type=click.Choice(["spec", "secrets"]), help="Mode to run the tool in")
 @click.option("--git-path", default=".", type=click.Path(exists=True), help="Path of the git repo")
 def main(mode, git_path):
     # Verify git path is a git repo
@@ -94,7 +95,7 @@ def main(mode, git_path):
 
     if mode == "spec":
         do_spec(git_path)
-    elif mode == "enter":
+    elif mode == "secrets":
         do_enter(git_path)
     else:
         print "Unrecognized mode!"
